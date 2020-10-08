@@ -1,0 +1,13 @@
+version: '3'
+services:
+  api:
+    build: 
+        context: .
+        dockerfile: Dockerfile
+    image: jitsi-no-jutsu-backend
+    container_name: JitsiNoJutsu
+    volumes:
+        - '.:/usr/src/app'
+        - '/usr/src/app/node_modules'
+    ports:
+      - "8000:8000"

@@ -4,8 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
+const PORT = 8000;
 
 // App
 const app = express();
@@ -13,13 +12,13 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 var routes = require('./routes');
-routes(app);
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+    res.status(200).json({
+        'message': "Hello World!"
+    })
+})
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+app.listen(PORT);
+console.log('Server listening on port: ' + PORT);
