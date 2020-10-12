@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const axios = require("axios");
 var cors = require('cors')
 var convert = require('xml-js');
+require('dotenv').config()
 
 // Constants
 const PORT = 8000;
@@ -15,21 +16,23 @@ app.use(cors())
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 var routes = require('./routes');
 
-app.get('/', (req, res) => {
+const BASE_URL = process.env.NODE_ENV === "prod" || process.env.NODE_ENV ==="production" ? process.env.PROD_URL :process.env.DEV_URL
+
+
+app.get('/api', (req, res) => {
     res.status(200).json({
         'message': "Hello World!"
     })
 })
 
-app.post("/user", async (req, res, next) => {
+app.post("/api/user", async (req, res, next) => {
     const ticket = req.query.ticketId
-    const URL_REDIRECT = "http://localhost:3001"
+  
     try {
         let {data} = await axios.post(
-            `https://sso.ui.ac.id/cas2/serviceValidate?ticket=${ticket}&service=${URL_REDIRECT}`
+            `https://sso.ui.ac.id/cas2/serviceValidate?ticket=${ticket}&service=${BASE_URL}`
         )
        
         data = data.replace(/>\s*/g, '>');  // Replace "> " with ">"
