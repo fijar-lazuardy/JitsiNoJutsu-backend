@@ -31,10 +31,9 @@ app.post("/api/user", async (req, res, next) => {
     const ticket = req.query.ticketId
   
     try {
-        let {data} = await axios.post(
-            `https://sso.ui.ac.id/cas2/serviceValidate?ticket=${ticket}&service=${BASE_URL}`
+        let {data} = await axios.get(
+            `https://akun-kp.cs.ui.ac.id/cas/serviceValidate?service=${BASE_URL}&ticket=${ticket}`
         )
-       
         data = data.replace(/>\s*/g, '>');  // Replace "> " with ">"
         data = data.replace(/\s*</g, '<');  // Replace "< " with "<"
         data = data.replace(
@@ -43,21 +42,23 @@ app.post("/api/user", async (req, res, next) => {
             "" 
             );
         var json = convert.xml2json(data)
+      
         let result = {}
         json = JSON.parse(json)
+      
         if(json.elements[0].elements[0].name==="cas:authenticationSuccess"){    
             const element = json.elements[0].elements[0].elements
-      
+           
             const username = element[0].elements[0].text
-     
-            const role = element[1].elements[2].elements[0].text
+            
+            const role = element[1].elements[1].elements[0].text
          
-            const name = element[1].elements[3].elements[0].text
+            const name = element[1].elements[6].elements[0].text
     
-            const npm = element[1].elements[4].elements[0].text
+            const email = element[1].elements[8].elements[0].text
 
             result['message'] = 'success'
-            result['data']={'username':username,'role':role,'name':name,'npm':npm}
+            result['data']={'username':username,'role':role,'name':name,'email':email}
             res.send(result)
         }
         else{
