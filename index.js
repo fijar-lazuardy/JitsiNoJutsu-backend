@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var routes = require('./routes');
 
-const BASE_URL = process.env.NODE_ENV === "prod" || process.env.NODE_ENV ==="production" ? process.env.PROD_URL :process.env.DEV_URL
+const BASE_URL = process.env.URL 
 
 
 app.get('/api', (req, res) => {

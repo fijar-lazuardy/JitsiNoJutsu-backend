@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "env-cmd -f .env.development node index.js",
+    "start:prod": "env-cmd -f .env.production node index.js"
   },
   "dependencies": {
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
     "express": "^4.16.1",
     "xml-js": "^1.6.11",
     "xml2json-light": "^1.0.6"
