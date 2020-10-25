@@ -34,6 +34,7 @@ app.post("/api/user", async (req, res, next) => {
         let {data} = await axios.get(
             `https://akun-kp.cs.ui.ac.id/cas/serviceValidate?service=${BASE_URL}&ticket=${ticket}`
         )
+        console.log("data raw from servce validate:",data)
         data = data.replace(/>\s*/g, '>');  // Replace "> " with ">"
         data = data.replace(/\s*</g, '<');  // Replace "< " with "<"
         data = data.replace(
@@ -42,20 +43,24 @@ app.post("/api/user", async (req, res, next) => {
             "" 
             );
         var json = convert.xml2json(data)
-      
+        console.log("after validate convert html:",json)
         let result = {}
         json = JSON.parse(json)
-      
+        console.log("parse to json:",json)
         if(json.elements[0].elements[0].name==="cas:authenticationSuccess"){    
             const element = json.elements[0].elements[0].elements
-           
+            console.log("element:",element)
             const username = element[0].elements[0].text
+            console.log("username:",element)
             
             const role = element[1].elements[1].elements[0].text
+            console.log("role:",element)
          
             const name = element[1].elements[6].elements[0].text
+            console.log("name:",element)
     
             const email = element[1].elements[8].elements[0].text
+            console.log("email:",element)
 
             result['message'] = 'success'
             result['data']={'username':username,'role':role,'name':name,'email':email}
