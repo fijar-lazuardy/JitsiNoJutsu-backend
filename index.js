@@ -26,7 +26,7 @@ app.get('/api', (req, res) => {
         'message': "Hello World!"
     })
 })
-
+console.log("URL:",BASE_URL)
 app.post("/api/user", async (req, res, next) => {
     const ticket = req.query.ticketId
   
